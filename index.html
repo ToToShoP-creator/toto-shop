@@ -8,24 +8,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .product-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
+        /* Кнопка наверх */
+        #scrollTopBtn {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        #scrollTopBtn.show {
+            opacity: 1;
+            visibility: visible;
+        }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen font-sans">
+<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen font-sans" id="top">
 
     <!-- Верхній рекламний банер -->
     <div class="bg-teal-700 text-white text-center py-2 px-4 text-xs sm:text-sm font-medium flex justify-center items-center gap-2 shadow-inner">
         <span>🎉 Вітаємо в ТоТо ShoP! Швидка відправка по всій Україні!</span>
-        <a href="https://www.facebook.com/marketplace/profile/61550282762355/" target="_blank" class="underline hover:text-teal-200 ml-2 font-bold">
-            <i class="fa-brands fa-facebook"></i> Наш Facebook
-        </a>
     </div>
 
     <!-- Хедер з банером та брендингом -->
     <header class="bg-white shadow-md sticky top-0 z-40">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-                <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-teal-500 shadow-sm flex-shrink-0">
-                    <img src="https://viss-img.olxcdn.com/v1/files/4jpx50p9lhre1-UA/image;s=1000x700" alt="ToToShoP Logo" class="w-full h-full object-cover">
+                <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-teal-500 shadow-sm flex-shrink-0 bg-teal-100 flex items-center justify-center">
+                    <span class="font-black text-teal-700 text-xl">T<span class="text-emerald-500">o</span>T<span class="text-emerald-500">o</span></span>
                 </div>
                 <div>
                     <h1 class="text-xl sm:text-2xl font-extrabold text-teal-700 tracking-tight">ТоТо ShoP</h1>
@@ -34,9 +41,13 @@
             </div>
 
             <div class="flex items-center gap-3">
-                <a href="https://www.facebook.com/marketplace/profile/61550282762355/" target="_blank" class="hidden md:flex items-center gap-1 text-blue-600 bg-blue-50 px-3 py-2 rounded-lg hover:bg-blue-100 transition font-medium text-sm">
-                    <i class="fa-brands fa-facebook text-lg"></i> Facebook
-                </a>
+                <div class="hidden md:flex flex-col items-end mr-2">
+                    <a href="https://www.facebook.com/marketplace/profile/61550282762355/" target="_blank" class="flex items-center gap-1 text-blue-600 bg-blue-50 px-3 py-2 rounded-lg hover:bg-blue-100 transition font-medium text-sm">
+                        <i class="fa-brands fa-facebook text-lg"></i> Наш Facebook
+                    </a>
+                    <span class="text-[10px] text-gray-500 mt-1 font-semibold">Тут є детальна інформація про товар</span>
+                </div>
+                
                 <button onclick="toggleCart()" class="bg-teal-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-teal-700 transition shadow-md flex items-center gap-2">
                     <i class="fa-solid fa-cart-shopping"></i>
                     <span>Кошик</span>
@@ -52,7 +63,7 @@
             <div class="space-y-3 max-w-xl text-center md:text-left">
                 <span class="bg-teal-800/50 text-teal-100 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Офіційний каталог</span>
                 <h2 class="text-2xl sm:text-4xl font-extrabold leading-tight">Якісні товари з доставкою до вашого дому!</h2>
-                <p class="text-teal-100 text-sm sm:text-base">Обирайте товари у нашому каталозі та замовляйте в один клік з прямою відправкою. Швидко, зручно та безпечно.</p>
+                <p class="text-teal-100 text-sm sm:text-base">Обирайте товари у нашому каталозі та замовляйте в один клік з прямою відправкою. Більше фото та деталей — на нашій сторінці у Facebook!</p>
             </div>
             <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
                 <a href="https://t.me/toto_shop_ua_bot" target="_blank" class="bg-white text-teal-800 font-bold px-5 py-3 rounded-xl hover:bg-teal-50 transition text-center shadow-md flex items-center justify-center gap-2">
@@ -86,13 +97,16 @@
             </div>
             <div>
                 <h4 class="text-white font-bold text-lg mb-3">Наші соцмережі</h4>
-                <div class="flex flex-col gap-2">
+                <div class="flex flex-col gap-3">
                     <a href="https://t.me/toto_shop_ua_bot" target="_blank" class="hover:text-white transition flex items-center gap-2">
                         <i class="fa-brands fa-telegram text-blue-400 text-lg"></i> Telegram-бот
                     </a>
-                    <a href="https://www.facebook.com/marketplace/profile/61550282762355/" target="_blank" class="hover:text-white transition flex items-center gap-2">
-                        <i class="fa-brands fa-facebook text-blue-500 text-lg"></i> Facebook Marketplace
-                    </a>
+                    <div>
+                        <a href="https://www.facebook.com/marketplace/profile/61550282762355/" target="_blank" class="hover:text-white transition flex items-center gap-2">
+                            <i class="fa-brands fa-facebook text-blue-500 text-lg"></i> Facebook Marketplace
+                        </a>
+                        <span class="text-[11px] text-gray-500 block mt-1 ml-6">*Тут є детальна інформація про товари</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -101,16 +115,25 @@
         </div>
     </footer>
 
+    <!-- Кнопка "Наверх" -->
+    <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-6 right-6 bg-teal-600 text-white w-12 h-12 rounded-full shadow-2xl flex items-center justify-center text-xl hover:bg-teal-700 transition z-40 border-2 border-white">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
     <!-- Модальні вікна -->
     <div id="product-modal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto relative">
             <button onclick="closeProductModal()" class="absolute top-4 right-4 bg-gray-100 text-gray-500 hover:text-black w-8 h-8 rounded-full flex items-center justify-center font-bold">✕</button>
-            <img id="modal-img" src="" alt="" class="w-full h-64 object-contain rounded-xl mb-4 bg-gray-50 border">
+            <img id="modal-img" src="" alt="" onerror="this.src='https://placehold.co/600x400/eeeeee/319795?text=ТоТо+ShoP'" class="w-full h-64 object-contain rounded-xl mb-4 bg-gray-50 border">
             <h3 id="modal-title" class="text-xl font-extrabold text-gray-900 mb-2"></h3>
             <p id="modal-price" class="text-2xl font-black text-teal-600 mb-4"></p>
             <div class="border-t pt-3 mb-6">
                 <h4 class="font-bold mb-2 text-gray-700">Опис товару:</h4>
                 <p id="modal-desc" class="text-gray-600 text-sm leading-relaxed whitespace-pre-line"></p>
+                <div class="mt-4 bg-blue-50 p-3 rounded-xl border border-blue-100 flex items-start gap-3">
+                    <i class="fa-brands fa-facebook text-blue-600 text-xl mt-0.5"></i>
+                    <p class="text-xs text-blue-800">Більше фотографій та дуже детальна інформація про цей товар знаходиться на нашій сторінці у <a href="https://www.facebook.com/marketplace/profile/61550282762355/" target="_blank" class="font-bold underline">Facebook Marketplace</a>.</p>
+                </div>
             </div>
             <button id="modal-add-btn" class="w-full bg-teal-600 text-white py-3 rounded-xl font-bold hover:bg-teal-700 transition shadow-lg flex items-center justify-center gap-2">
                 <i class="fa-solid fa-cart-plus"></i> Додати в кошик
@@ -146,10 +169,9 @@
         const TELEGRAM_CHAT_ID = "6762708096";
 
         // ==========================================
-        // МАСИВ З 50 ТОВАРІВ (ТОТО SHOP)
+        // ТІЛЬКИ РЕАЛЬНІ ТОВАРИ
         // ==========================================
         const products = [
-            // --- ОСНОВНІ ТОВАРИ З OLX ---
             { id: 1, name: "Подарункова коробка з трояндами та ведмедиком", price: 250, img: "https://viss-img.olxcdn.com/v1/files/4jpx50p9lhre1-UA/image;s=1000x700", description: "Романтичний подарунковий набір із мильними трояндами та милим плюшевим ведмедиком. Ідеальний подарунок для коханої дівчини." },
             { id: 2, name: "Бутон троянди в колбі (Троянда під куполом)", price: 299, img: "https://viss-img.olxcdn.com/v1/files/4m8q15978x2w3-UA/image;s=1000x700", description: "Стильний декор та вишуканий подарунок. Елегантний бутон троянди під скляним куполом з теплою LED-підсвіткою." },
             { id: 3, name: "Стильне худі Vivienne Westwood", price: 1450, img: "https://viss-img.olxcdn.com/v1/files/51qslmdmsks53-UA/image;s=1000x700", description: "Якісне та стильне худі для повсякденного носіння. Приємна до тіла тканина, комфортний вільний крій, стійкий принт." },
@@ -159,61 +181,7 @@
             { id: 7, name: "Тепловентилятор-обігрівач зі зволожувачем", price: 2530, img: "https://viss-img.olxcdn.com/v1/files/1a7u7r2a5l2d-UA/image;s=1000x700", description: "Універсальний кліматичний комплекс 2-в-1. Швидко обігріває приміщення, не пересушуючи повітря завдяки зволожувачу." },
             { id: 8, name: "Керамічний настільний обігрівач 800/1200 Вт", price: 490, img: "https://viss-img.olxcdn.com/v1/files/1b88xspm3rkm2-UA/image;s=1000x700", description: "Компактний портативний обігрівач із керамічним нагрівальним елементом. Забезпечує швидкий нагрів невеликої кімнати." },
             { id: 9, name: "Гейзерна кавоварка", price: 290, img: "https://viss-img.olxcdn.com/v1/files/935746439-UA/image;s=1000x700", description: "Класична гейзерна кавоварка для приготування насиченого еспресо вдома. Виготовлена з харчового алюмінію." },
-            { id: 10, name: "Інвертор 5 CORE 2000W 12V (Чиста синусоїда)", price: 3000, img: "https://viss-img.olxcdn.com/v1/files/935644104-UA/image;s=1000x700", description: "Надійний перетворювач напруги 12В-220В для безпечного резервного живлення котлів та техніки під час відключень." },
-            
-            // --- LED-ОСВІТЛЕННЯ ---
-            { id: 11, name: "LED стрічка RGB 5м з пультом", price: 250, img: "https://viss-img.olxcdn.com/v1/files/3e9p1hvl6ypt3-UA/image;s=1000x700", description: "Комплект яскравої кольорової LED стрічки довжиною 5 метрів. Ідеально для декору кімнати." },
-            { id: 12, name: "LED стрічка RGB 10м (Bluetooth)", price: 450, img: "https://viss-img.olxcdn.com/v1/files/3e9p1hvl6ypt3-UA/image;s=1000x700", description: "Розумна LED стрічка 10м з можливістю керування через додаток на телефоні та синхронізацією з музикою." },
-            { id: 13, name: "LED підсвітка для телевізора (USB)", price: 220, img: "https://viss-img.olxcdn.com/v1/files/3e9p1hvl6ypt3-UA/image;s=1000x700", description: "Стрічка для фонової підсвітки монітора або ТБ. Живиться від USB, зменшує навантаження на очі." },
-            { id: 14, name: "Гнучкий холодний неон в авто (5м)", price: 350, img: "https://viss-img.olxcdn.com/v1/files/3e9p1hvl6ypt3-UA/image;s=1000x700", description: "Стильний неоновий шнур для контурної підсвітки салону автомобіля. Легко монтується в щілини панелі." },
-            { id: 15, name: "Світлодіодна неонова вивіска 'Open'", price: 650, img: "https://viss-img.olxcdn.com/v1/files/3e9p1hvl6ypt3-UA/image;s=1000x700", description: "Яскрава вивіска для бізнесу або декору кімнати у вигляді неонового напису." },
-
-            // --- ПОВЕРБАНКИ ТА ЕЛЕКТРОНІКА ---
-            { id: 16, name: "Power Bank 10000 mAh", price: 450, img: "https://viss-img.olxcdn.com/v1/files/935644104-UA/image;s=1000x700", description: "Компактний портативний акумулятор ємністю 10000 мАг. Вистачає на 2-3 повних заряди смартфона." },
-            { id: 17, name: "Power Bank 20000 mAh (Fast Charge)", price: 799, img: "https://viss-img.olxcdn.com/v1/files/935644104-UA/image;s=1000x700", description: "Потужний повербанк з підтримкою швидкої зарядки. Має кілька виходів USB та Type-C." },
-            { id: 18, name: "Power Bank 30000 mAh з ліхтариком", price: 1150, img: "https://viss-img.olxcdn.com/v1/files/935644104-UA/image;s=1000x700", description: "Дуже ємний акумулятор для довгих подорожей та відключень світла. Вбудований потужний LED ліхтар." },
-            { id: 19, name: "Повербанк із сонячною панеллю", price: 950, img: "https://viss-img.olxcdn.com/v1/files/935644104-UA/image;s=1000x700", description: "Ідеальне рішення для туризму. Заряджається від сонця, ударостійкий вологозахищений корпус." },
-            { id: 20, name: "Магнітний кабель 3-в-1", price: 190, img: "https://viss-img.olxcdn.com/v1/files/935644104-UA/image;s=1000x700", description: "Зручний магнітний кабель із трьома насадками (Type-C, MicroUSB, Lightning). Захищає гніздо телефону." },
-
-            // --- АВТОАКСЕСУАРИ ---
-            { id: 21, name: "Магнітний тримач для телефону в авто", price: 180, img: "https://viss-img.olxcdn.com/v1/files/3b5u823dmb6n2-UA/image;s=1000x700", description: "Надійний магнітний холдер для смартфона, кріпиться на панель або решітку обдуву." },
-            { id: 22, name: "FM-модулятор Bluetooth в прикурювач", price: 290, img: "https://viss-img.olxcdn.com/v1/files/3b5u823dmb6n2-UA/image;s=1000x700", description: "Дозволяє слухати музику з телефону через магнітолу авто, має функцію гучного зв'язку та USB зарядку." },
-            { id: 23, name: "Автомобільний пилосос 12V", price: 550, img: "https://viss-img.olxcdn.com/v1/files/3b5u823dmb6n2-UA/image;s=1000x700", description: "Компактний ручний пилосос для прибирання салону. Працює від прикурювача." },
-            { id: 24, name: "Набір мікрофібри для авто (3 шт)", price: 150, img: "https://viss-img.olxcdn.com/v1/files/3b5u823dmb6n2-UA/image;s=1000x700", description: "Густі та м'які рушники з мікрофібри для миття та полірування кузова. Не залишають подряпин." },
-            { id: 25, name: "Автомобільний компресор (насос)", price: 750, img: "https://viss-img.olxcdn.com/v1/files/3b5u823dmb6n2-UA/image;s=1000x700", description: "Потужний електричний насос для підкачки шин. У комплекті насадки для м'ячів та матраців." },
-
-            // --- ТОВАРИ ДЛЯ ГАРАЖА / ІНСТРУМЕНТИ ---
-            { id: 26, name: "Магнітна планка для інструментів", price: 220, img: "https://viss-img.olxcdn.com/v1/files/1b88xspm3rkm2-UA/image;s=1000x700", description: "Зручний настінний магнітний тримач для ключів, викруток та металевого інвентарю." },
-            { id: 27, name: "Акумуляторний LED ліхтар для гаража", price: 490, img: "https://viss-img.olxcdn.com/v1/files/1b88xspm3rkm2-UA/image;s=1000x700", description: "Яскравий підвісний ліхтар з гачком та магнітом. Незамінний помічник під час ремонту авто." },
-            { id: 28, name: "Набір комбінованих ключів (12 шт)", price: 850, img: "https://viss-img.olxcdn.com/v1/files/1b88xspm3rkm2-UA/image;s=1000x700", description: "Якісний набір гайкових ключів у зручному тканинному чохлі. Виготовлені з міцної сталі." },
-            { id: 29, name: "Органайзер для метизів та дрібниць", price: 380, img: "https://viss-img.olxcdn.com/v1/files/1b88xspm3rkm2-UA/image;s=1000x700", description: "Пластиковий бокс з багатьма відділеннями для зберігання шурупів, гайок та рибальських снастей." },
-            { id: 30, name: "Багатофункціональний мультитул", price: 450, img: "https://viss-img.olxcdn.com/v1/files/1b88xspm3rkm2-UA/image;s=1000x700", description: "Компактний інструмент, що містить плоскогубці, ніж, викрутку та відкривачку." },
-
-            // --- ДЕКОР, S.C.R.P. ТА РУЧНА РОБОТА ---
-            { id: 31, name: "Ексклюзивний нічник S.C.R.P. 'Сталкер'", price: 1500, img: "https://viss-img.olxcdn.com/v1/files/4m8q15978x2w3-UA/image;s=1000x700", description: "Унікальний авторський світильник в постапокаліптичному стилі бренду S.C.R.P." },
-            { id: 32, name: "Діорама з епоксидної смоли S.C.R.P.", price: 2100, img: "https://viss-img.olxcdn.com/v1/files/4m8q15978x2w3-UA/image;s=1000x700", description: "Деталізована декоративна діорама ручної роботи з заливкою епоксидною смолою." },
-            { id: 33, name: "Букет троянд з атласних стрічок", price: 650, img: "https://viss-img.olxcdn.com/v1/files/4jpx50p9lhre1-UA/image;s=1000x700", description: "Шикарний вічний букет троянд ручної роботи, виготовлений з блискучих атласних стрічок." },
-            { id: 34, name: "Декоративна 3D фігурка", price: 350, img: "https://viss-img.olxcdn.com/v1/files/4m8q15978x2w3-UA/image;s=1000x700", description: "Стильна фігурка для робочого столу, створена за допомогою сучасного 3D-друку." },
-            { id: 35, name: "LED гірлянда 'Роса' на батарейках", price: 150, img: "https://viss-img.olxcdn.com/v1/files/4m8q15978x2w3-UA/image;s=1000x700", description: "Тонка та гнучка гірлянда з краплинними діодами для створення магічного декору." },
-
-            // --- ПАРАСОЛІ ---
-            { id: 36, name: "Парасоля автомат 'Антивітер'", price: 450, img: "https://viss-img.olxcdn.com/v1/files/51qslmdmsks53-UA/image;s=1000x700", description: "Надійна парасоля з міцними спицями та системою захисту від сильного вітру. Автоматичне відкриття." },
-            { id: 37, name: "Прозора стильна парасоля", price: 380, img: "https://viss-img.olxcdn.com/v1/files/51qslmdmsks53-UA/image;s=1000x700", description: "Елегантна парасоля-тростина з прозорим куполом. Ідеально підходить для осінніх фотосесій." },
-            { id: 38, name: "Складна міні-парасоля у футлярі", price: 400, img: "https://viss-img.olxcdn.com/v1/files/51qslmdmsks53-UA/image;s=1000x700", description: "Дуже легка та компактна парасолька, яка легко поміститься навіть у невелику жіночу сумочку." },
-            { id: 39, name: "Парасоля навпаки (зворотна) для авто", price: 550, img: "https://viss-img.olxcdn.com/v1/files/51qslmdmsks53-UA/image;s=1000x700", description: "Інноваційна парасоля, що складається мокрою стороною всередину. Зручно сідати в автомобіль під час дощу." },
-            { id: 40, name: "Велика чоловіча парасоля-тростина", price: 650, img: "https://viss-img.olxcdn.com/v1/files/51qslmdmsks53-UA/image;s=1000x700", description: "Класична велика парасоля-тростина зі зручною ручкою. Захистить від дощу одразу двох людей." },
-
-            // --- РІЗНЕ ТА КЕМПІНГ ---
-            { id: 41, name: "Кемпінговий ліхтар з PowerBank", price: 550, img: "https://viss-img.olxcdn.com/v1/files/2wsh28mxlv4b2-UA/image;s=1000x700", description: "Універсальний ліхтар для намету, який також може підзарядити ваш телефон у поході." },
-            { id: 42, name: "Термос із нержавіючої сталі 1л", price: 450, img: "https://viss-img.olxcdn.com/v1/files/2wsh28mxlv4b2-UA/image;s=1000x700", description: "Вакуумний термос класичної форми. Тримає температуру гарячого чаю або кави до 12 годин." },
-            { id: 43, name: "Газова туристична горелка", price: 380, img: "https://viss-img.olxcdn.com/v1/files/2wsh28mxlv4b2-UA/image;s=1000x700", description: "Мініатюрна складна плитка для приготування їжі в поході, працює від стандартних газових балонів." },
-            { id: 44, name: "Тактичний рюкзак 40л", price: 950, img: "https://viss-img.olxcdn.com/v1/files/2wsh28mxlv4b2-UA/image;s=1000x700", description: "Міцний та місткий рюкзак з системою Molle, підійде для туризму, полювання та тактичних задач." },
-            { id: 45, name: "Органайзер у багажник авто", price: 650, img: "https://viss-img.olxcdn.com/v1/files/3b5u823dmb6n2-UA/image;s=1000x700", description: "Складна містка сумка для підтримки ідеального порядку в багажнику автомобіля." },
-            { id: 46, name: "Автомобільний парфум-ароматизатор", price: 180, img: "https://viss-img.olxcdn.com/v1/files/3b5u823dmb6n2-UA/image;s=1000x700", description: "Стильний ароматизатор на дефлектор з преміальним ароматом, що довго тримається в салоні." },
-            { id: 47, name: "Настільний годинник з LED підсвіткою", price: 350, img: "https://viss-img.olxcdn.com/v1/files/3e9p1hvl6ypt3-UA/image;s=1000x700", description: "Сучасний електронний годинник-будильник у стилі модерн з яскравими цифрами." },
-            { id: 48, name: "Бездротова зарядка для телефону", price: 400, img: "https://viss-img.olxcdn.com/v1/files/935644104-UA/image;s=1000x700", description: "Швидка зарядна станція для смартфонів, що підтримують стандарт Qi. Зручно для робочого столу." },
-            { id: 49, name: "Світильник 'Лофт' з металу", price: 550, img: "https://viss-img.olxcdn.com/v1/files/3e9p1hvl6ypt3-UA/image;s=1000x700", description: "Дизайнерський настільний світильник у стилі лофт. Ідеально підходить до сучасних інтер'єрів." },
-            { id: 50, name: "Набір інструментів у кейсі (108 од.)", price: 1650, img: "https://viss-img.olxcdn.com/v1/files/1b88xspm3rkm2-UA/image;s=1000x700", description: "Великий професійний набір торцевих головок та біт у міцному пластиковому кейсі." }
+            { id: 10, name: "Інвертор 5 CORE 2000W 12V (Чиста синусоїда)", price: 3000, img: "https://viss-img.olxcdn.com/v1/files/935644104-UA/image;s=1000x700", description: "Надійний перетворювач напруги 12В-220В для безпечного резервного живлення котлів та техніки під час відключень." }
         ];
 
         let cart = [];
@@ -224,7 +192,7 @@
                 <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden flex flex-col justify-between product-card transition duration-300">
                     <div class="cursor-pointer" onclick="openProductModal(${p.id})">
                         <div class="h-48 overflow-hidden bg-gray-50 flex items-center justify-center relative">
-                            <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover">
+                            <img src="${p.img}" alt="${p.name}" onerror="this.src='https://placehold.co/600x400/eeeeee/319795?text=ТоТо+ShoP'" class="w-full h-full object-cover">
                             <span class="absolute bottom-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded-full backdrop-blur-sm">
                                 <i class="fa-regular fa-eye"></i> Перегляд
                             </span>
@@ -311,6 +279,16 @@
                 cart = []; updateCart(); toggleCart(); document.getElementById("order-form").reset();
             } catch (err) { alert("Помилка відправки замовлення. Перевірте з'єднання."); }
         }
+
+        // Логіка для кнопки "Наверх"
+        window.addEventListener('scroll', function() {
+            const btn = document.getElementById('scrollTopBtn');
+            if (window.scrollY > 300) {
+                btn.classList.add('show');
+            } else {
+                btn.classList.remove('show');
+            }
+        });
 
         renderProducts();
     </script>
