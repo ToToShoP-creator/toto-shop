@@ -168,64 +168,43 @@
         // ==========================================
         // МАСИВ ТОВАРІВ (СЮДИ ДОДАВАТИ НОВІ ТОВАРИ)
         // ==========================================
-        const products = [
-            { 
-                id: 1, 
-                name: "Подарункова коробка з трояндами та ведмедиком", 
-                price: 250, 
-                img: "https://viss-img.olxcdn.com/v1/files/4jpx50p9lhre1-UA/image;s=1000x700",
-                description: "Романтичний подарунковий набір із квітами з мила та милими ведмедиком. Чудовий варіант для подарунка близькій людині на будь-яке свято."
-            },
-            { 
-                id: 2, 
-                name: "Бутон троянди в колбі (Троянда під куполом)", 
-                price: 299, 
-                img: "https://viss-img.olxcdn.com/v1/files/4m8q15978x2w3-UA/image;s=1000x700",
-                description: "Стильний декор та вишуканий подарунок. Бутон троянди під скляним куполом з красивою LED-підсвіткою."
-            },
-            { 
-                id: 3, 
-                name: "Стильне худі Vivienne Westwood", 
-                price: 1450, 
-                img: "https://viss-img.olxcdn.com/v1/files/51qslmdmsks53-UA/image;s=1000x700",
-                description: "Якісне та стильне худі у чорному та білому кольорах. Усі розміри в наявності. Приємна тканина, комфортний крій."
-            },
-            { 
-                id: 4, 
-                name: "Електричний роликовий масажер для тіла", 
-                price: 1899, 
-                img: "https://viss-img.olxcdn.com/v1/files/3b5u823dmb6n2-UA/image;s=1000x700",
-                description: "Ефективний роликовий масажер для розслаблення м'язів шиї, спини та всього тіла. Декілька режимів роботи."
-            },
-            { 
-                id: 5, 
-                name: "Туристичний спальний мішок", 
-                price: 1490, 
-                img: "https://viss-img.olxcdn.com/v1/files/2wsh28mxlv4b2-UA/image;s=1000x700",
-                description: "Надійний спальник для походів, кемпінгу, риболовлі та відпочинку на природі. Добре зберігає тепло."
-            },
-            { 
-                id: 6, 
-                name: "Лампа із проекцією заходу сонця", 
-                price: 299, 
-                img: "https://viss-img.olxcdn.com/v1/files/3e9p1hvl6ypt3-UA/image;s=1000x700",
-                description: "Створює затишну атмосферу та неймовірні фото. Регульований кут нахилу, яскраве м'яке світло."
-            },
-            { 
-                id: 7, 
-                name: "Тепловентилятор-обігрівач з зволожувачем", 
-                price: 2530, 
-                img: "https://viss-img.olxcdn.com/v1/files/1a7u7r2a5l2d-UA/image;s=1000x700",
-                description: "Багатофункціональний прилад: швидко обігріває приміщення та підтримує комфортний рівень вологості."
-            },
-            { 
-                id: 8, 
-                name: "Керамічний настільний обігрівач 800/1200 Вт", 
-                price: 490, 
-                img: "https://viss-img.olxcdn.com/v1/files/1b88xspm3rkm2-UA/image;s=1000x700",
-                description: "Компактний та економічний керамічний обігрівач. Двоступеневе регулювання потужності, безпечна робота."
-            }
-        ];
+        const products = [// ==========================================
+// ДИНАМІЧНЕ ЗАВАНТАЖЕННЯ З ТАБЛИЦІ
+// ==========================================
+let products = [// ==========================================
+// ДИНАМІЧНЕ ЗАВАНТАЖЕННЯ З ТАБЛИЦІ
+// ==========================================
+let products = [];
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwf_qMuMv7xyyDHpgO-1ajKHSNTxtB1g7uksjlwLt7LwSWcTk_hUXhHFVe6vLLTgqG9rQ/exec"; 
+
+async function loadProducts() {
+    try {
+        const response = await fetch(SCRIPT_URL);
+        products = await response.json();
+        renderProducts();
+    } catch (error) {
+        console.error("Помилка завантаження товарів", error);
+        document.getElementById("products-grid").innerHTML = "<p class='text-center w-full text-red-500 font-bold col-span-full'>Не вдалося завантажити товари з бази даних.</p>";
+    }
+}
+
+// Запускаємо завантаження при старті
+loadProducts();];
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwf_qMuMv7xyyDHpgO-1ajKHSNTxtB1g7uksjlwLt7LwSWcTk_hUXhHFVe6vLLTgqG9rQ/exec"; 
+
+async function loadProducts() {
+    try {
+        const response = await fetch(SCRIPT_URL);
+        products = await response.json();
+        renderProducts();
+    } catch (error) {
+        console.error("Помилка завантаження товарів", error);
+        document.getElementById("products-grid").innerHTML = "<p class='text-center w-full text-red-500 font-bold col-span-full'>Не вдалося завантажити товари з бази даних.</p>";
+    }
+}
+
+// Запускаємо завантаження при старті
+loadProducts();];
 
         let cart = [];
 
