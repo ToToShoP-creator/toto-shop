@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ТоТо ShoP — Інтернет-магазин</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Шапка сайту -->
+    <header class="bg-indigo-600 text-white p-4 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-wide">ТоТо ShoP</h1>
+            <button onclick="toggleCart()" class="bg-indigo-800 px-4 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition">
+                🛒 Кошик (<span id="cart-count">0</span>)
+            </button>
+        </div>
+    </header>
+
+    <!-- Каталог товарів -->
+    <main class="container mx-auto p-6">
+        <h2 class="text-2xl font-bold mb-6 text-center">Каталог товарів</h2>
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Товари згенеровано з JavaScript -->
+        </div>
+    </main>
+
+    <!-- Модальне вікно кошика -->
+    <div id="cart-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg max-w-md w-full p-6 shadow-xl max-h-[90vh] overflow-y-auto">
+            <h3 class="text-xl font-bold mb-4">Ваше замовлення</h3>
+            <div id="cart-items" class="space-y-3 mb-4"></div>
+            <div class="border-t pt-3 mb-4">
+                <p class="font-bold text-lg">Загальна сума: <span id="cart-total">0</span> грн</p>
+            </div>
+
+            <!-- Форма оформлення -->
+            <form id="order-form" onsubmit="sendOrder(event)" class="space-y-3">
+                <input type="text" id="cust-name" placeholder="Прізвище та Ім'я" required class="w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <input type="tel" id="cust-phone" placeholder="Номер телефону" required class="w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <input type="text" id="cust-city" placeholder="Місто та № відділення Нової Пошти" required class="w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                
+                <div class="flex gap-2 pt-2">
+                    <button type="button" onclick="toggleCart()" class="w-1/2 bg-gray-300 py-2 rounded hover:bg-gray-400 transition font-semibold">Закрити</button>
+                    <button type="submit" class="w-1/2 bg-green-600 text-white py-2 rounded hover:bg-green-700 transition font-bold">Оформити</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Дані бота та ваш Telegram CHAT_ID
+        const TELEGRAM_BOT_TOKEN = "8819560143:AAHzuTDzQtQt507NodVxs5wmjrzaG9wsb_c";
+        const TELEGRAM_CHAT_ID = "6762708096"; // Замініть на ваш ID з @userinfobot
+
+        // Каталог товарів із вашого OLX
+        const products = [
+            { id: 1, name: "Подарункова коробка з трояндами та ведмедиком", price: 250 },
+            { id: 2, name: "Бутон троянди в колбі (Троянда під куполом)", price: 299 },
+            { id: 3, name: "Стильне худі Vivienne Westwood", price: 1450 },
+            { id: 4, name: "Електричний роликовий масажер для тіла", price: 1899 },
+            { id: 5, name: "Туристичний спальний мішок", price: 1490 },
+            { id: 6, name: "Лампа із проекцією заходу сонця", price: 299 },
+            { id: 7, name: "Тепловентилятор-обігрівач з зволожувачем", price: 2530 },
+            { id: 8, name: "Керамічний настільний обігрівач 800/1200 Вт", price: 490 },
+            { id: 9, name: "Гейзерна кавоварка", price: 290 },
+            { id: 10, name: "Світлодіодна LED лампа MJ-261 кільцева RGB 26 см", price: 700 },
+            { id: 11, name: "Інвертор 5 CORE 2000W 12V (Чиста синусоїда)", price: 3000 },
+            { id: 12, name: "Набір акумуляторних інструментів 2 в 1 (Гайковерт + Болгарка)", price: 1995 }
+        ];
+
+        let cart = [];
+
+        function renderProducts() {
+            const grid = document.getElementById("products-grid");
+            grid.innerHTML = products.map(p => `
+                <div class="bg-white rounded-lg shadow-md p-4 flex flex-col justify-between hover:shadow-lg transition">
+                    <div>
+                        <div class="w-full h-40 bg-indigo-50 rounded-md flex items-center justify-center mb-3">
+                            <span class="text-4xl">📦</span>
+                        </div>
+                        <h3 class="font-bold text-base line-clamp-2">${p.name}</h3>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-indigo-600 font-bold text-xl mb-3">${p.price} грн</p>
+                        <button onclick="addToCart(${p.id})" class="w-full bg-indigo-600 text-white py-2 rounded font-semibold hover:bg-indigo-700 transition">
+                            В кошик
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addToCart(id) {
+            const item = products.find(p => p.id === id);
+            cart.push(item);
+            updateCart();
+        }
+
+        function updateCart() {
+            document.getElementById("cart-count").innerText = cart.length;
+            const cartItems = document.getElementById("cart-items");
+            const totalEl = document.getElementById("cart-total");
+
+            if(cart.length === 0) {
+                cartItems.innerHTML = "<p class='text-gray-500 text-center py-4'>Кошик порожній</p>";
+                totalEl.innerText = "0";
+                return;
+            }
+
+            cartItems.innerHTML = cart.map((item, idx) => `
+                <div class="flex justify-between items-center border-b pb-2">
+                    <span class="text-sm font-medium pr-2">${item.name}</span>
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-sm whitespace-nowrap">${item.price} грн</span>
+                        <button onclick="removeFromCart(${idx})" class="text-red-500 font-bold hover:text-red-700">✕</button>
+                    </div>
+                </div>
+            `).join('');
+
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            totalEl.innerText = total;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function toggleCart() {
+            document.getElementById("cart-modal").classList.toggle("hidden");
+        }
+
+        async function sendOrder(e) {
+            e.preventDefault();
+            if (cart.length === 0) return alert("Ваш кошик порожній!");
+
+            if (TELEGRAM_CHAT_ID === "ВАШ_CHAT_ID") {
+                alert("Будь ласка, вкажіть ваш TELEGRAM_CHAT_ID у коді сайту!");
+                return;
+            }
+
+            const name = document.getElementById("cust-name").value;
+            const phone = document.getElementById("cust-phone").value;
+            const city = document.getElementById("cust-city").value;
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+
+            let itemList = cart.map(i => `• ${i.name} — ${i.price} грн`).join('\n');
+
+            const message = `🛍️ *НОВЕ ЗАМОВЛЕННЯ — ТоТо ShoP*\n\n` +
+                `👤 *Покупець:* ${name}\n` +
+                `📞 *Телефон:* ${phone}\n` +
+                `📍 *Доставка:* ${city}\n\n` +
+                `📦 *Товари:*\n${itemList}\n\n` +
+                `💰 *Разом до сплати:* ${total} грн`;
+
+            try {
+                await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
+                });
+
+                alert("Замовлення успішно відправлено! Дякуємо за покупку.");
+                cart = [];
+                updateCart();
+                toggleCart();
+                document.getElementById("order-form").reset();
+            } catch (err) {
+                alert("Помилка відправки замовлення. Перевірте з'єднання.");
+            }
+        }
+
+        renderProducts();
+    </script>
+</body>
+</html>
