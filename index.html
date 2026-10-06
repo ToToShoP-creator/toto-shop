@@ -77,7 +77,21 @@
         <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
             <i class="fa-solid fa-boxes-packing text-teal-600"></i> Каталог товарів
         </h3>
-
+   <!-- Пошукова строка -->
+   <div class="mb-6">
+  <div class="relative max-w-md">
+    <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </span>
+    <input 
+      type="text" 
+      id="search-input" 
+      oninput="filterProducts()" 
+      placeholder="Шукати товар за назвою чи описом..." 
+      class="w-full pl-11 pr-4 py-3 bg-white border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-teal-500 focus:outline-none text-sm transition"
+    >
+  </div>
+</div>
         <!-- Сітка товарів -->
         <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
     </main>
@@ -304,6 +318,55 @@
         });
 
 renderProducts();
+// Головна функція рендерингу товарів
+function renderProducts(productsToRender) {
+  const grid = document.getElementById('products-grid');
+  grid.innerHTML = '';
+
+  if (productsToRender.length === 0) {
+    grid.innerHTML = `
+      <div class="col-span-full text-center py-12 text-gray-500">
+        <i class="fa-solid fa-face-frown text-4xl mb-3 text-gray-400"></i>
+        <p class="text-lg font-semibold">Нічого не знайдено за вашим запитом</p>
+      </div>
+    `;
+    return;
+  }
+
+  productsToRender.forEach(product => {
+    grid.innerHTML += `
+      <div class="product-card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col transition">
+        <div class="relative bg-gray-50 h-52 flex items-center justify-center overflow-hidden">
+          <img src="${product.img}" alt="${product.name}" class="w-full h-full object-cover">
+          <button onclick="openProductModal(${product.id})" class="absolute bottom-3 right-3 bg-white/90 hover:bg-white text-teal-700 px-3 py-1.5 rounded-xl text-xs font-bold shadow-md transition flex items-center gap-1">
+            <i class="fa-solid fa-eye"></i> Перегляд
+          </button>
+        </div>
+        <div class="p-4 flex flex-col flex-grow">
+          <h3 class="font-bold text-gray-900 text-base mb-1 line-clamp-1">${product.name}</h3>
+          <div class="text-teal-600 font-extrabold text-lg mb-4">${product.price} грн</div>
+          <div class="mt-auto flex gap-2">
+            <button onclick="openProductModal(${product.id})" class="w-1/2 bg-gray-100 text-gray-700 py-2 rounded-xl text-xs font-bold hover:bg-gray-200 transition">Деталі</button>
+            <button onclick="addToCart(${product.id})" class="w-1/2 bg-teal-600 text-white py-2 rounded-xl text-xs font-bold hover:bg-teal-700 transition shadow-sm">В кошик</button>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+// Функція фільтрації товарів при введенні тексту в пошук
+function filterProducts() {
+  const query = document.getElementById('search-input').value.toLowerCase().trim();
+  
+  const filtered = products.filter(product => {
+    const nameMatch = product.name.toLowerCase().includes(query);
+    const descMatch = product.description.toLowerCase().includes(query);
+    return nameMatch || descMatch;
+  });
+
+  renderProducts(filtered);
+}
     </script> 
 
     <script src="https://cdn.pulse.is/livechat/loader.js" data-live-chat-id="6ac0c603ab2b0f7886029fb5" async></script>
