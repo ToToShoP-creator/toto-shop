@@ -94,7 +94,6 @@
     <input 
       type="text" 
       id="search-input" 
-      oninput="filterProducts()" 
       placeholder="Шукати товар за назвою чи описом..." 
       class="w-full pl-11 pr-4 py-3 bg-white border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-teal-500 focus:outline-none text-sm transition"
     >
@@ -358,23 +357,30 @@ function showToast(message = "Товар успішно додано до кош
   }, 2000);
 }
 
-// Надійна функція фільтрації (шукає тільки за назвою)
-function filterProducts() {
-  const searchInput = document.getElementById('search-input');
-  if (!searchInput) return; 
+// Залізобетонна логіка пошуку (працює завжди)
+window.addEventListener('load', function() {
+  const searchBox = document.getElementById('search-input');
   
-  const query = searchInput.value.toLowerCase().trim();
-  
-  const filtered = products.filter(product => {
-    // Шукаємо збіги ВИКЛЮЧНО в назві товару
-    if (product.name) {
-      return product.name.toLowerCase().includes(query);
-    }
-    return false;
-  });
-
-  renderProducts(filtered);
-}
+  if (searchBox) {
+    searchBox.addEventListener('input', function(e) {
+      const text = e.target.value.toLowerCase().trim();
+      
+      const foundProducts = products.filter(function(item) {
+        // Захист від помилок: шукаємо і в name, і в title (на випадок, якщо у вас інша назва поля)
+        const itemName = item.name || item.title || "";
+        const itemDesc = item.description || "";
+        
+        const matchName = itemName.toLowerCase().includes(text);
+        const matchDesc = itemDesc.toLowerCase().includes(text);
+        
+        return matchName || matchDesc;
+      });
+      
+      // Виводимо знайдені товари
+      renderProducts(foundProducts);
+    });
+  }
+});
     </script> 
 
     <script src="https://cdn.pulse.is/livechat/loader.js" data-live-chat-id="6ac0c603ab2b0f7886029fb5" async></script>
