@@ -261,10 +261,19 @@
 
         function closeProductModal() { document.getElementById("product-modal").classList.add("hidden"); }
 
-        function addToCart(id) {
-            cart.push(products.find(p => p.id === id));
-            showToast();
-        }
+        function addToCart(productId) {
+  // 1. Знаходимо товар
+  const product = products.find(p => p.id === productId);
+  
+  // 2. Додаємо в масив кошика
+  cart.push(product);
+  
+  // 3. ОНОВЛЮЄМО КОШИК (цей рядок дуже важливий, ви могли його випадково видалити!)
+  updateCart(); // Або renderCart(), або updateCartCount() - залежить від вашого коду
+  
+  // 4. Викликаємо сповіщення
+  showToast(); 
+}
 
         function updateCart() {
             document.getElementById("cart-count").innerText = cart.length;
