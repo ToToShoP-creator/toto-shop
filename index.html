@@ -358,9 +358,12 @@ function showToast(message = "Товар успішно додано до кош
   }, 2000);
 }
 
-// Функція фільтрації товарів при введенні тексту в пошук
+// Функція фільтрації товарів за ключовими словами
 function filterProducts() {
-  const query = document.getElementById('search-input').value.toLowerCase().trim();
+  const searchInput = document.getElementById('search-input');
+  if (!searchInput) return; // Захист від помилок, якщо поле не знайдено
+  
+  const query = searchInput.value.toLowerCase().trim();
   
   const filtered = products.filter(product => {
     const nameMatch = product.name.toLowerCase().includes(query);
