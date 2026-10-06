@@ -9,6 +9,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Анімація сповіщення кошика */
+@keyframes slideIn {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.toast-animation {
+  animation: slideIn 0.3s ease forwards;
+}
         .product-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
         /* Кнопка наверх */
         #scrollTopBtn {
@@ -318,6 +326,21 @@
         });
 
 renderProducts();
+        // Функція показу спливаючого сповіщення
+function showToast(message = "Товар успішно додано до кошика!") {
+  const toast = document.getElementById('toast-notification');
+  const toastText = document.getElementById('toast-text');
+  
+  toastText.textContent = message;
+  toast.classList.remove('hidden');
+  toast.classList.add('flex');
+
+  // Автоматично приховуємо через 1.5 секунди
+  setTimeout(() => {
+    toast.classList.remove('flex');
+    toast.classList.add('hidden');
+  }, 1500);
+}
 // Головна функція рендерингу товарів
 function renderProducts(productsToRender) {
   const grid = document.getElementById('products-grid');
@@ -370,5 +393,10 @@ function filterProducts() {
     </script> 
 
     <script src="https://cdn.pulse.is/livechat/loader.js" data-live-chat-id="6ac0c603ab2b0f7886029fb5" async></script>
+<!-- Спливаюче сповіщення про додавання в кошик -->
+<div id="toast-notification" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-5 py-3 rounded-2xl shadow-2xl z-50 hidden items-center gap-3 text-sm font-medium border border-gray-800 toast-animation">
+  <i class="fa-solid fa-circle-check text-teal-400 text-lg"></i>
+  <span id="toast-text">Товар успішно додано до кошика!</span>
+</div>
 </body>
 </html>
