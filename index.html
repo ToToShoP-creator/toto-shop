@@ -220,9 +220,23 @@
 
         let cart = [];
 
-        function renderProducts() {
+        function renderProducts(itemsToRender) {
+            // Якщо передали відфільтровані товари - беремо їх, якщо ні - беремо всі товари
+            const data = itemsToRender || products;
             const grid = document.getElementById("products-grid");
-            grid.innerHTML = products.map(p => `
+
+            // Якщо пошук не дав результатів
+            if (data.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-gray-500">
+                        <i class="fa-solid fa-magnifying-glass mb-3 text-3xl text-gray-400 block"></i>
+                        <p class="text-lg font-medium">Товарів за вашим запитом не знайдено.</p>
+                    </div>`;
+                return;
+            }
+
+            // Малюємо товари з масиву data (а не з глобального products)
+            grid.innerHTML = data.map(p => `
                 <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden flex flex-col justify-between product-card transition duration-300">
                     <div class="cursor-pointer" onclick="openProductModal(${p.id})">
                         <div class="h-48 overflow-hidden bg-gray-50 flex items-center justify-center relative">
