@@ -358,17 +358,19 @@ function showToast(message = "Товар успішно додано до кош
   }, 2000);
 }
 
-// Функція фільтрації товарів за ключовими словами
+// Надійна функція фільтрації (шукає тільки за назвою)
 function filterProducts() {
   const searchInput = document.getElementById('search-input');
-  if (!searchInput) return; // Захист від помилок, якщо поле не знайдено
+  if (!searchInput) return; 
   
   const query = searchInput.value.toLowerCase().trim();
   
   const filtered = products.filter(product => {
-    const nameMatch = product.name.toLowerCase().includes(query);
-    const descMatch = product.description.toLowerCase().includes(query);
-    return nameMatch || descMatch;
+    // Шукаємо збіги ВИКЛЮЧНО в назві товару
+    if (product.name) {
+      return product.name.toLowerCase().includes(query);
+    }
+    return false;
   });
 
   renderProducts(filtered);
